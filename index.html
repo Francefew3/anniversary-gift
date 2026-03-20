@@ -3,114 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Special Gift for My Gift | Anniversary</title>
+    <title>Project Gift | Our Anniversary</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;700&family=Plus+Jakarta+Sans:wght@400;600&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     
     <style>
-        :root {
-            --primary-pink: #f8d8db;
-            --rose-red: #934655;
-        }
-
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            overflow-x: hidden;
-            transition: background 1s ease;
-        }
-
+        :root { --rose-red: #934655; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; background: #fbf9f1; }
         .font-romantic { font-family: 'Dancing Script', cursive; }
         .font-numbers { font-family: 'Montserrat', sans-serif; }
-
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.25);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-        }
-
-        /* Falling Petals Animation */
-        .petal {
-            position: fixed;
-            top: -10%;
-            pointer-events: none;
-            z-index: 99;
-            animation: fall linear forwards;
-        }
-
-        @keyframes fall {
-            to { transform: translateY(110vh) rotate(360deg); }
-        }
-
-        /* Shake effect for wrong password */
+        .glass-panel { background: rgba(255, 255, 255, 0.3); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.2); }
+        .petal { position: fixed; top: -10%; pointer-events: none; z-index: 99; animation: fall linear forwards; }
+        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
         .shake { animation: shake 0.4s ease-in-out; }
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-10px); }
-            75% { transform: translateX(10px); }
-        }
-
-        /* Mouse Trail */
-        .sparkle {
-            position: fixed;
-            width: 8px;
-            height: 8px;
-            background: var(--rose-red);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 100;
-            opacity: 0.6;
-        }
-
-        .polaroid {
-            background: white;
-            padding: 10px 10px 40px 10px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .polaroid:hover { transform: scale(1.05) rotate(0deg) !important; z-index: 10; cursor: pointer; }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }
+        .polaroid { background: white; padding: 10px 10px 40px 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .polaroid:hover { transform: scale(1.05) !important; z-index: 10; cursor: pointer; }
     </style>
 </head>
-<body class="bg-[#fbf9f1] text-[#1b1c17]">
+<body>
 
-    <audio id="bgMusic" loop>
-        <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg">
-    </audio>
+    <div id="ytPlayer" style="position:fixed; top:-999px; left:-999px;"></div>
 
     <div id="lockScreen" class="fixed inset-0 z-[100] flex items-center justify-center bg-gradient-to-br from-[#f8d8db] to-[#fbf9f1] p-6">
-        <div class="max-w-md w-full glass-panel p-8 rounded-3xl text-center space-y-6 shadow-2xl">
-            <h1 class="font-romantic text-5xl text-[#934655]">Hello, My Gift</h1>
-            <p class="text-sm tracking-widest uppercase opacity-60">Enter our special date</p>
+        <div class="max-w-md w-full glass-panel p-10 rounded-3xl text-center space-y-6 shadow-2xl">
+            <h1 class="font-romantic text-5xl text-[#934655]">For My Gift</h1>
+            <p class="text-xs tracking-widest uppercase opacity-60">Enter Our Special Date (DDMMYY)</p>
             
             <div class="flex justify-center gap-2" id="otp-inputs">
-                <input type="password" maxlength="1" class="w-12 h-14 text-center text-2xl font-numbers bg-white/50 rounded-xl border-none focus:ring-2 focus:ring-[#934655]">
-                <input type="password" maxlength="1" class="w-12 h-14 text-center text-2xl font-numbers bg-white/50 rounded-xl border-none focus:ring-2 focus:ring-[#934655]">
-                <input type="password" maxlength="1" class="w-12 h-14 text-center text-2xl font-numbers bg-white/50 rounded-xl border-none focus:ring-2 focus:ring-[#934655]">
-                <input type="password" maxlength="1" class="w-12 h-14 text-center text-2xl font-numbers bg-white/50 rounded-xl border-none focus:ring-2 focus:ring-[#934655]">
-                <input type="password" maxlength="1" class="w-12 h-14 text-center text-2xl font-numbers bg-white/50 rounded-xl border-none focus:ring-2 focus:ring-[#934655]">
-                <input type="password" maxlength="1" class="w-12 h-14 text-center text-2xl font-numbers bg-white/50 rounded-xl border-none focus:ring-2 focus:ring-[#934655]">
+                <input type="number" pattern="\d*" inputmode="numeric" maxlength="1" class="w-12 h-14 text-center text-2xl font-numbers bg-white/70 rounded-xl border-none focus:ring-2 focus:ring-[#934655]">
+                <input type="number" pattern="\d*" inputmode="numeric" maxlength="1" class="w-12 h-14 text-center text-2xl font-numbers bg-white/70 rounded-xl border-none focus:ring-2 focus:ring-[#934655]">
+                <input type="number" pattern="\d*" inputmode="numeric" maxlength="1" class="w-12 h-14 text-center text-2xl font-numbers bg-white/70 rounded-xl border-none focus:ring-2 focus:ring-[#934655]">
+                <input type="number" pattern="\d*" inputmode="numeric" maxlength="1" class="w-12 h-14 text-center text-2xl font-numbers bg-white/70 rounded-xl border-none focus:ring-2 focus:ring-[#934655]">
+                <input type="number" pattern="\d*" inputmode="numeric" maxlength="1" class="w-12 h-14 text-center text-2xl font-numbers bg-white/70 rounded-xl border-none focus:ring-2 focus:ring-[#934655]">
+                <input type="number" pattern="\d*" inputmode="numeric" maxlength="1" class="w-12 h-14 text-center text-2xl font-numbers bg-white/70 rounded-xl border-none focus:ring-2 focus:ring-[#934655]">
             </div>
-            
-            <p id="errorMsg" class="text-red-500 text-sm hidden">Incorrect date, try again my love.</p>
+            <p id="errorMsg" class="text-red-500 text-sm hidden">ลองใหม่อีกครั้งนะคนเก่ง ❤️</p>
         </div>
     </div>
 
-    <main id="mainContent" class="opacity-0 transition-opacity duration-1000 pt-20 pb-20 px-4 max-w-5xl mx-auto">
-        
+    <main id="mainContent" class="opacity-0 transition-opacity duration-1000 pt-24 pb-32 px-4 max-w-5xl mx-auto">
         <header class="fixed top-0 left-0 w-full h-16 flex justify-between items-center px-6 glass-panel z-50">
             <div class="flex items-center gap-2">
                 <span class="material-symbols-outlined text-[#934655]">favorite</span>
-                <span class="font-romantic text-2xl">For Gift</span>
+                <span class="font-romantic text-2xl text-[#934655]">Project Gift</span>
             </div>
             <div class="flex gap-4">
-                <button onclick="toggleMusic()" class="text-[#934655]"><span class="material-symbols-outlined" id="musicIcon">music_off</span></button>
-                <button onclick="takeScreenshot()" class="text-[#934655]"><span class="material-symbols-outlined">photo_camera</span></button>
+                <button onclick="toggleMusic()" class="text-[#934655]"><span class="material-symbols-outlined" id="musicIcon">music_note</span></button>
             </div>
         </header>
 
         <section class="text-center mb-16 space-y-4">
-            <h2 class="text-3xl font-bold">Every second with you is a gift...</h2>
+            <h2 class="text-3xl font-bold text-[#934655]">เราคบกันมานานเท่าไหร่แล้วนะ?</h2>
             <div class="flex justify-center gap-4">
                 <div class="flex flex-col"><span id="days" class="text-4xl font-numbers font-bold text-[#934655]">00</span><span class="text-[10px] uppercase">Days</span></div>
                 <div class="flex flex-col"><span id="hours" class="text-4xl font-numbers font-bold text-[#934655]">00</span><span class="text-[10px] uppercase">Hrs</span></div>
@@ -119,188 +64,147 @@
             </div>
         </section>
 
-        <section id="envelopeWrapper" class="flex justify-center mb-20">
-            <div onclick="openEnvelope()" class="w-64 h-48 bg-[#e19c98] rounded-lg shadow-2xl relative cursor-pointer flex items-center justify-center border-b-4 border-black/10 hover:scale-105 transition-transform">
+        <section id="envelopeWrapper" class="flex justify-center mb-10">
+            <div onclick="openEnvelope()" class="w-64 h-48 bg-[#e19c98] rounded-lg shadow-2xl relative cursor-pointer flex items-center justify-center border-b-4 border-black/10 hover:scale-105 transition-all">
                 <div class="text-center">
-                    <p class="font-romantic text-2xl text-white">Open Me</p>
-                    <div class="mt-2 w-12 h-12 bg-[#934655] rounded-full mx-auto flex items-center justify-center text-white shadow-lg">
-                        <span class="material-symbols-outlined">favorite</span>
-                    </div>
+                    <p class="font-romantic text-2xl text-white">Click to Open</p>
+                    <div class="mt-2 w-12 h-12 bg-[#934655] rounded-full mx-auto flex items-center justify-center text-white shadow-lg"><span class="material-symbols-outlined">favorite</span></div>
                 </div>
             </div>
         </section>
 
-        <div id="gallery" class="hidden grid grid-cols-2 md:grid-cols-5 gap-6">
-            </div>
-
+        <div id="gallery" class="hidden grid grid-cols-2 md:grid-cols-5 gap-6"></div>
     </main>
 
-    <div id="toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 z-[200] hidden">
-        <div class="bg-[#934655] text-white px-6 py-3 rounded-full shadow-xl font-romantic text-xl animate-bounce">
-            I love you so much! 💖
-        </div>
+    <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 z-[200] hidden">
+        <div class="bg-[#934655] text-white px-8 py-3 rounded-full shadow-2xl font-romantic text-2xl animate-bounce"></div>
     </div>
 
+    <script src="https://www.youtube.com/iframe_api"></script>
     <script>
-    // --- 1. CONFIGURATION ---
-    const anniversaryDate = new Date("2016-11-26T00:00:00"); 
-    const correctPasscode = "261159"; // เปลี่ยนรหัสตรงนี้
-    const messages = ["You are my world 🌍", "My better half 💖", "Forever with you ♾️", "You make me smile 😊", "My beautiful Gift 🌹", "Always yours 🤝", "Soulmates ✨", "My favorite person 🥇", "Love you more 📈", "To the moon and back 🌙"];
+        // --- ตั้งค่าข้อมูลตรงนี้ ---
+        const anniversaryDate = new Date("2024-06-12T00:00:00"); 
+        const correctPasscode = "120625"; 
+        const youtubeID = "NuDGNXsHYsk"; // เพลงคู่ชีวิต
+        const messages = ["รักคุณที่สุดเลย 💖", "ขอบคุณที่อยู่ข้างกัน ✨", "Gift คือของขวัญของผม 🌹", "ยิ้มบ่อยๆ นะ 😊", "Happy Anniversary 🥂", "จับมือกันไปนานๆ นะ 👫", "คนเก่งของผม 🌟", "รักนะยัยตัวแสบ 😋", "Forever with you ♾️", "You're my everything 🥇"];
 
-    // --- 2. PASSCODE AUTO-JUMP & VALIDATION ---
-    const inputs = document.querySelectorAll('#otp-inputs input');
-    
-    inputs.forEach((input, i) => {
-        // เมื่อพิมพ์ตัวเลข
-        input.addEventListener('input', (e) => {
-            if (e.target.value.length === 1 && i < inputs.length - 1) {
-                inputs[i + 1].focus(); // กระโดดไปช่องถัดไป
-            }
-            
-            // ตรวจสอบว่ากรอกครบทุกช่องหรือยัง
-            const fullPass = Array.from(inputs).map(inp => inp.value).join('');
-            if (fullPass.length === 6) {
-                validatePass(fullPass);
-            }
+        let player;
+
+        // --- YouTube API ---
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('ytPlayer', {
+                height: '0', width: '0', videoId: youtubeID,
+                playerVars: { 'autoplay': 0, 'loop': 1, 'playlist': youtubeID },
+                events: { 'onReady': () => console.log("Music Ready") }
+            });
+        }
+
+        // --- ระบบรหัสผ่าน (Auto-Jump) ---
+        const inputs = document.querySelectorAll('#otp-inputs input');
+        inputs.forEach((input, i) => {
+            input.addEventListener('input', (e) => {
+                if (e.target.value.length > 1) e.target.value = e.target.value.slice(0, 1);
+                if (e.target.value && i < inputs.length - 1) inputs[i + 1].focus();
+                
+                const fullPass = Array.from(inputs).map(inp => inp.value).join('');
+                if (fullPass.length === 6) validatePass(fullPass);
+            });
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && !input.value && i > 0) inputs[i - 1].focus();
+            });
         });
 
-        // เมื่อกด Backspace ให้ถอยหลัง
-        input.addEventListener('keydown', (e) => {
-            if (e.key === 'Backspace' && !input.value && i > 0) {
-                inputs[i - 1].focus();
+        function validatePass(pass) {
+            if (pass === correctPasscode) {
+                document.getElementById('lockScreen').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('lockScreen').style.display = 'none';
+                    document.getElementById('mainContent').style.opacity = '1';
+                    initSite();
+                }, 800);
+            } else {
+                document.querySelector('.glass-panel').classList.add('shake');
+                document.getElementById('errorMsg').classList.remove('hidden');
+                setTimeout(() => {
+                    document.querySelector('.glass-panel').classList.remove('shake');
+                    inputs.forEach(inp => inp.value = '');
+                    inputs[0].focus();
+                }, 500);
             }
-        });
-    });
-
-    function validatePass(pass) {
-        if (pass === correctPasscode) {
-            // รหัสถูก: ซ่อนหน้า Lock และเริ่มทำงาน
-            document.getElementById('lockScreen').style.transition = 'opacity 0.8s ease';
-            document.getElementById('lockScreen').style.opacity = '0';
-            setTimeout(() => {
-                document.getElementById('lockScreen').style.display = 'none';
-                document.getElementById('mainContent').style.opacity = '1';
-                initSite(); // ปลุกระบบทั้งหมดให้ทำงาน
-            }, 800);
-        } else {
-            // รหัสผิด: สั่นเตือน
-            const glass = document.querySelector('.glass-panel');
-            glass.classList.add('shake');
-            document.getElementById('errorMsg').classList.remove('hidden');
-            
-            setTimeout(() => {
-                glass.classList.remove('shake');
-                inputs.forEach(inp => inp.value = ''); // ล้างค่า
-                inputs[0].focus(); // กลับไปช่องแรก
-            }, 500);
         }
-    }
 
-    // --- 3. INITIALIZE SITE ---
-    function initSite() {
-        startCounter();
-        createPetals();
-        setupTheme();
-        // พยายามเล่นเพลง (Browser บางตัวอาจจะ Block จนกว่าจะมีการ Click)
-        const music = document.getElementById('bgMusic');
-        music.play().catch(e => console.log("Music will start after first interaction"));
-    }
-
-    // --- 4. TIMER LOGIC ---
-    function startCounter() {
-        setInterval(() => {
-            const now = new Date();
-            const diff = now - anniversaryDate;
-            document.getElementById('days').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
-            document.getElementById('hours').innerText = Math.floor((diff / (1000 * 60 * 60)) % 24);
-            document.getElementById('mins').innerText = Math.floor((diff / 1000 / 60) % 60);
-            document.getElementById('secs').innerText = Math.floor((diff / 1000) % 60);
-        }, 1000);
-    }
-
-    // --- 5. ENVELOPE & GALLERY ---
-    function openEnvelope() {
-        document.getElementById('envelopeWrapper').style.display = 'none';
-        const gallery = document.getElementById('gallery');
-        gallery.classList.remove('hidden');
-        gallery.innerHTML = ''; // Clear ก่อนเผื่อกดซ้ำ
-        
-        for(let i=1; i<=10; i++) {
-            const div = document.createElement('div');
-            // สุ่มองศาการเอียงให้เหมือนรูปโพลารอยด์วางกระจัดกระจาย
-            const randomRotate = Math.floor(Math.random() * 10 - 5);
-            div.className = `polaroid`;
-            div.style.transform = `rotate(${randomRotate}deg)`;
-            
-            div.innerHTML = `
-                <img src="images/${i}.jpg" class="w-full aspect-square object-cover mb-2" onerror="this.src='https://via.placeholder.com/300?text=Memory+${i}'">
-                <p class="font-romantic text-center text-sm text-[#70585b]">Memory #${i}</p>
-            `;
-            
-            div.onclick = (e) => {
-                showToast(messages[i-1]);
-                createBurst(e);
-            };
-            gallery.appendChild(div);
+        function initSite() {
+            startCounter();
+            createPetals();
+            if (player && player.playVideo) player.playVideo();
         }
-    }
 
-    // --- 6. UTILITIES (TOAST, EFFECTS, ETC.) ---
-    function showToast(msg) {
-        const t = document.getElementById('toast');
-        t.firstElementChild.innerText = msg;
-        t.classList.remove('hidden');
-        setTimeout(() => t.classList.add('hidden'), 2000);
-    }
-
-    function createPetals() {
-        const p = document.createElement('div');
-        p.className = 'petal';
-        p.innerHTML = '🌹';
-        p.style.left = Math.random() * 100 + 'vw';
-        p.style.animationDuration = (Math.random() * 3 + 4) + 's';
-        p.style.opacity = Math.random();
-        p.style.fontSize = (Math.random() * 20 + 10) + 'px';
-        document.body.appendChild(p);
-        p.addEventListener('animationend', () => p.remove());
-        setTimeout(createPetals, 2000);
-    }
-
-    function createBurst(e) {
-        for(let i=0; i<6; i++) {
-            const b = document.createElement('div');
-            b.innerHTML = '❤️';
-            b.className = 'fixed pointer-events-none z-[200]';
-            b.style.left = e.clientX + 'px';
-            b.style.top = e.clientY + 'px';
-            b.style.transition = 'all 0.8s ease-out';
-            document.body.appendChild(b);
-            setTimeout(() => {
-                b.style.transform = `translate(${(Math.random()-0.5)*200}px, ${(Math.random()-0.5)*200}px) scale(0)`;
-                b.style.opacity = '0';
-            }, 10);
-            setTimeout(() => b.remove(), 800);
+        function startCounter() {
+            setInterval(() => {
+                const now = new Date();
+                const diff = now - anniversaryDate;
+                document.getElementById('days').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
+                document.getElementById('hours').innerText = Math.floor((diff / (1000 * 60 * 60)) % 24);
+                document.getElementById('mins').innerText = Math.floor((diff / 1000 / 60) % 60);
+                document.getElementById('secs').innerText = Math.floor((diff / 1000) % 60);
+            }, 1000);
         }
-    }
 
-    function setupTheme() {
-        const hr = new Date().getHours();
-        if (hr < 6 || hr > 18) {
-            document.body.style.background = "#2d1b1e";
-            document.body.style.color = "white";
+        function openEnvelope() {
+            document.getElementById('envelopeWrapper').classList.add('hidden');
+            const gallery = document.getElementById('gallery');
+            gallery.classList.remove('hidden');
+            for(let i=1; i<=10; i++) {
+                const div = document.createElement('div');
+                div.className = 'polaroid';
+                div.style.transform = `rotate(${Math.random() * 10 - 5}deg)`;
+                div.innerHTML = `
+                    <img src="images/${i}.jpg" class="w-full aspect-square object-cover mb-2" onerror="this.src='https://via.placeholder.com/300?text=Gift+${i}'">
+                    <p class="font-romantic text-center text-sm text-[#70585b]">Our Memory</p>
+                `;
+                div.onclick = (e) => { showToast(messages[i-1]); createBurst(e); };
+                gallery.appendChild(div);
+            }
         }
-    }
 
-    function toggleMusic() {
-        const m = document.getElementById('bgMusic');
-        const icon = document.getElementById('musicIcon');
-        if (m.paused) { m.play(); icon.innerText = 'music_note'; }
-        else { m.pause(); icon.innerText = 'music_off'; }
-    }
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.firstElementChild.innerText = msg;
+            t.classList.remove('hidden');
+            setTimeout(() => t.classList.add('hidden'), 2000);
+        }
 
-    function takeScreenshot() {
-        alert("UI hidden. Take your screenshot now!");
-        document.querySelector('header').style.opacity = '0';
-        setTimeout(() => { document.querySelector('header').style.opacity = '1'; }, 5000);
-    }
-</script>
+        function createPetals() {
+            const p = document.createElement('div');
+            p.className = 'petal'; p.innerHTML = '🌹';
+            p.style.left = Math.random() * 100 + 'vw';
+            p.style.animationDuration = (Math.random() * 3 + 5) + 's';
+            p.style.fontSize = (Math.random() * 20 + 10) + 'px';
+            document.body.appendChild(p);
+            p.addEventListener('animationend', () => p.remove());
+            setTimeout(createPetals, 1000);
+        }
+
+        function createBurst(e) {
+            for(let i=0; i<6; i++) {
+                const b = document.createElement('div');
+                b.innerHTML = '❤️'; b.className = 'fixed pointer-events-none z-[200]';
+                b.style.left = e.clientX + 'px'; b.style.top = e.clientY + 'px';
+                b.style.transition = 'all 0.8s ease-out';
+                document.body.appendChild(b);
+                setTimeout(() => {
+                    b.style.transform = `translate(${(Math.random()-0.5)*200}px, ${(Math.random()-0.5)*200}px) scale(0)`;
+                    b.style.opacity = '0';
+                }, 10);
+                setTimeout(() => b.remove(), 800);
+            }
+        }
+
+        function toggleMusic() {
+            const icon = document.getElementById('musicIcon');
+            if (player.getPlayerState() === 1) { player.pauseVideo(); icon.innerText = 'music_off'; }
+            else { player.playVideo(); icon.innerText = 'music_note'; }
+        }
+    </script>
+</body>
+</html>
