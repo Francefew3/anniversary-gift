@@ -81,130 +81,160 @@
     </div>
 
     <script src="https://www.youtube.com/iframe_api"></script>
-    <script>
-        // --- ตั้งค่าข้อมูลตรงนี้ ---
-        const anniversaryDate = new Date("2016-11-26T00:00:00"); 
-        const correctPasscode = "261159"; 
-        const youtubeID = "NuDGNXsHYsk"; // เพลงคู่ชีวิต
-        const messages = ["รักคุณที่สุดเลย 💖", "ขอบคุณที่อยู่ข้างกัน ✨", "Gift คือของขวัญของผม 🌹", "ยิ้มบ่อยๆ นะ 😊", "Happy Anniversary 🥂", "จับมือกันไปนานๆ นะ 👫", "คนเก่งของผม 🌟", "รักนะยัยตัวแสบ 😋", "Forever with you ♾️", "You're my everything 🥇"];
+<script>
+    // --- ตั้งค่าข้อมูลตรงนี้ ---
+    const anniversaryDate = new Date("2024-06-12T00:00:00"); 
+    const correctPasscode = "120625"; 
+    const youtubeID = "NuDGNXsHYsk"; 
+    const messages = ["รักคุณที่สุดเลย 💖", "ขอบคุณที่อยู่ข้างกัน ✨", "Gift คือของขวัญของผม 🌹", "ยิ้มบ่อยๆ นะ 😊", "Happy Anniversary 🥂", "จับมือกันไปนานๆ นะ 👫", "คนเก่งของผม 🌟", "รักนะยัยตัวแสบ 😋", "Forever with you ♾️", "You're my everything 🥇"];
 
-        let player;
+    let player;
+    let musicStarted = false;
 
-        // --- YouTube API ---
-        function onYouTubeIframeAPIReady() {
-            player = new YT.Player('ytPlayer', {
-                height: '0', width: '0', videoId: youtubeID,
-                playerVars: { 'autoplay': 0, 'loop': 1, 'playlist': youtubeID },
-                events: { 'onReady': () => console.log("Music Ready") }
-            });
-        }
-
-        // --- ระบบรหัสผ่าน (Auto-Jump) ---
-        const inputs = document.querySelectorAll('#otp-inputs input');
-        inputs.forEach((input, i) => {
-            input.addEventListener('input', (e) => {
-                if (e.target.value.length > 1) e.target.value = e.target.value.slice(0, 1);
-                if (e.target.value && i < inputs.length - 1) inputs[i + 1].focus();
-                
-                const fullPass = Array.from(inputs).map(inp => inp.value).join('');
-                if (fullPass.length === 6) validatePass(fullPass);
-            });
-            input.addEventListener('keydown', (e) => {
-                if (e.key === 'Backspace' && !input.value && i > 0) inputs[i - 1].focus();
-            });
+    // --- YouTube API Setup ---
+    function onYouTubeIframeAPIReady() {
+        player = new YT.Player('ytPlayer', {
+            height: '0', width: '0', videoId: youtubeID,
+            playerVars: { 
+                'autoplay': 1, 
+                'loop': 1, 
+                'playlist': youtubeID,
+                'mute': 1 // เริ่มต้นด้วยการ Mute เพื่อให้ Browser ยอมให้เล่น
+            },
+            events: { 
+                'onReady': (e) => {
+                    console.log("Player Ready");
+                    // พยายาม Unmute เมื่อมีการแตะหน้าจอครั้งแรก
+                    document.body.addEventListener('click', startMusicOnce, { once: true });
+                    document.body.addEventListener('touchstart', startMusicOnce, { once: true });
+                }
+            }
         });
+    }
 
-        function validatePass(pass) {
-            if (pass === correctPasscode) {
-                document.getElementById('lockScreen').style.opacity = '0';
-                setTimeout(() => {
-                    document.getElementById('lockScreen').style.display = 'none';
-                    document.getElementById('mainContent').style.opacity = '1';
-                    initSite();
-                }, 800);
-            } else {
-                document.querySelector('.glass-panel').classList.add('shake');
-                document.getElementById('errorMsg').classList.remove('hidden');
-                setTimeout(() => {
-                    document.querySelector('.glass-panel').classList.remove('shake');
-                    inputs.forEach(inp => inp.value = '');
-                    inputs[0].focus();
-                }, 500);
-            }
+    // ฟังก์ชันปลุกเพลงให้ดัง (ต้องเกิดจากการกระทำของผู้ใช้)
+    function startMusicOnce() {
+        if (player && !musicStarted) {
+            player.unMute();
+            player.setVolume(80);
+            player.playVideo();
+            musicStarted = true;
+            console.log("Music Unmuted & Started");
         }
+    }
 
-        function initSite() {
-            startCounter();
-            createPetals();
-            if (player && player.playVideo) player.playVideo();
-        }
+    // --- ระบบรหัสผ่าน (Auto-Jump) ---
+    const inputs = document.querySelectorAll('#otp-inputs input');
+    inputs.forEach((input, i) => {
+        input.addEventListener('input', (e) => {
+            // เมื่อเริ่มพิมพ์รหัส ให้พยายามเริ่มเพลงทันที (ถ้ายังไม่ดัง)
+            startMusicOnce();
 
-        function startCounter() {
-            setInterval(() => {
-                const now = new Date();
-                const diff = now - anniversaryDate;
-                document.getElementById('days').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
-                document.getElementById('hours').innerText = Math.floor((diff / (1000 * 60 * 60)) % 24);
-                document.getElementById('mins').innerText = Math.floor((diff / 1000 / 60) % 60);
-                document.getElementById('secs').innerText = Math.floor((diff / 1000) % 60);
-            }, 1000);
-        }
+            if (e.target.value.length > 1) e.target.value = e.target.value.slice(0, 1);
+            if (e.target.value && i < inputs.length - 1) inputs[i + 1].focus();
+            
+            const fullPass = Array.from(inputs).map(inp => inp.value).join('');
+            if (fullPass.length === 6) validatePass(fullPass);
+        });
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Backspace' && !input.value && i > 0) inputs[i - 1].focus();
+        });
+    });
 
-        function openEnvelope() {
-            document.getElementById('envelopeWrapper').classList.add('hidden');
-            const gallery = document.getElementById('gallery');
-            gallery.classList.remove('hidden');
-            for(let i=1; i<=10; i++) {
-                const div = document.createElement('div');
-                div.className = 'polaroid';
-                div.style.transform = `rotate(${Math.random() * 10 - 5}deg)`;
-                div.innerHTML = `
-                    <img src="images/${i}.jpg" class="w-full aspect-square object-cover mb-2" onerror="this.src='https://via.placeholder.com/300?text=Gift+${i}'">
-                    <p class="font-romantic text-center text-sm text-[#70585b]">Our Memory</p>
-                `;
-                div.onclick = (e) => { showToast(messages[i-1]); createBurst(e); };
-                gallery.appendChild(div);
-            }
+    function validatePass(pass) {
+        if (pass === correctPasscode) {
+            document.getElementById('lockScreen').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('lockScreen').style.display = 'none';
+                document.getElementById('mainContent').style.opacity = '1';
+                initSite();
+            }, 800);
+        } else {
+            document.querySelector('.glass-panel').classList.add('shake');
+            document.getElementById('errorMsg').classList.remove('hidden');
+            setTimeout(() => {
+                document.querySelector('.glass-panel').classList.remove('shake');
+                inputs.forEach(inp => inp.value = '');
+                inputs[0].focus();
+            }, 500);
         }
+    }
 
-        function showToast(msg) {
-            const t = document.getElementById('toast');
-            t.firstElementChild.innerText = msg;
-            t.classList.remove('hidden');
-            setTimeout(() => t.classList.add('hidden'), 2000);
+    function initSite() {
+        startCounter();
+        createPetals();
+        // ย้ำอีกครั้งเผื่อเพลงยังไม่เล่น
+        if (player) {
+            player.unMute();
+            player.playVideo();
         }
+    }
 
-        function createPetals() {
-            const p = document.createElement('div');
-            p.className = 'petal'; p.innerHTML = '🌹';
-            p.style.left = Math.random() * 100 + 'vw';
-            p.style.animationDuration = (Math.random() * 3 + 5) + 's';
-            p.style.fontSize = (Math.random() * 20 + 10) + 'px';
-            document.body.appendChild(p);
-            p.addEventListener('animationend', () => p.remove());
-            setTimeout(createPetals, 1000);
-        }
+    // --- ฟังก์ชันอื่นๆ คงเดิม ---
+    function startCounter() {
+        setInterval(() => {
+            const now = new Date();
+            const diff = now - anniversaryDate;
+            document.getElementById('days').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
+            document.getElementById('hours').innerText = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            document.getElementById('mins').innerText = Math.floor((diff / 1000 / 60) % 60);
+            document.getElementById('secs').innerText = Math.floor((diff / 1000) % 60);
+        }, 1000);
+    }
 
-        function createBurst(e) {
-            for(let i=0; i<6; i++) {
-                const b = document.createElement('div');
-                b.innerHTML = '❤️'; b.className = 'fixed pointer-events-none z-[200]';
-                b.style.left = e.clientX + 'px'; b.style.top = e.clientY + 'px';
-                b.style.transition = 'all 0.8s ease-out';
-                document.body.appendChild(b);
-                setTimeout(() => {
-                    b.style.transform = `translate(${(Math.random()-0.5)*200}px, ${(Math.random()-0.5)*200}px) scale(0)`;
-                    b.style.opacity = '0';
-                }, 10);
-                setTimeout(() => b.remove(), 800);
-            }
+    function openEnvelope() {
+        document.getElementById('envelopeWrapper').classList.add('hidden');
+        const gallery = document.getElementById('gallery');
+        gallery.classList.remove('hidden');
+        for(let i=1; i<=10; i++) {
+            const div = document.createElement('div');
+            div.className = 'polaroid';
+            div.style.transform = `rotate(${Math.random() * 10 - 5}deg)`;
+            div.innerHTML = `
+                <img src="images/${i}.jpg" class="w-full aspect-square object-cover mb-2" onerror="this.src='https://via.placeholder.com/300?text=Gift+${i}'">
+                <p class="font-romantic text-center text-sm text-[#70585b]">Our Memory</p>
+            `;
+            div.onclick = (e) => { showToast(messages[i-1]); createBurst(e); };
+            gallery.appendChild(div);
         }
+    }
 
-        function toggleMusic() {
-            const icon = document.getElementById('musicIcon');
-            if (player.getPlayerState() === 1) { player.pauseVideo(); icon.innerText = 'music_off'; }
-            else { player.playVideo(); icon.innerText = 'music_note'; }
+    function showToast(msg) {
+        const t = document.getElementById('toast');
+        t.firstElementChild.innerText = msg;
+        t.classList.remove('hidden');
+        setTimeout(() => t.classList.add('hidden'), 2000);
+    }
+
+    function createPetals() {
+        const p = document.createElement('div');
+        p.className = 'petal'; p.innerHTML = '🌹';
+        p.style.left = Math.random() * 100 + 'vw';
+        p.style.animationDuration = (Math.random() * 3 + 5) + 's';
+        p.style.fontSize = (Math.random() * 20 + 10) + 'px';
+        document.body.appendChild(p);
+        p.addEventListener('animationend', () => p.remove());
+        setTimeout(createPetals, 1000);
+    }
+
+    function createBurst(e) {
+        for(let i=0; i<6; i++) {
+            const b = document.createElement('div');
+            b.innerHTML = '❤️'; b.className = 'fixed pointer-events-none z-[200]';
+            b.style.left = e.clientX + 'px'; b.style.top = e.clientY + 'px';
+            b.style.transition = 'all 0.8s ease-out';
+            document.body.appendChild(b);
+            setTimeout(() => {
+                b.style.transform = `translate(${(Math.random()-0.5)*200}px, ${(Math.random()-0.5)*200}px) scale(0)`;
+                b.style.opacity = '0';
+            }, 10);
+            setTimeout(() => b.remove(), 800);
         }
-    </script>
-</body>
-</html>
+    }
+
+    function toggleMusic() {
+        const icon = document.getElementById('musicIcon');
+        if (player.getPlayerState() === 1) { player.pauseVideo(); icon.innerText = 'music_off'; }
+        else { player.playVideo(); icon.innerText = 'music_note'; }
+    }
+</script>
