@@ -3,23 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Gift | Our Anniversary</title>
-    
+    <title>For My Gift | The Final Surprise</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;700&family=Plus+Jakarta+Sans:wght@400;600&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    
     <style>
         :root { --rose-red: #934655; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; background: #fbf9f1; }
         .font-romantic { font-family: 'Dancing Script', cursive; }
-        .font-numbers { font-family: 'Montserrat', sans-serif; }
-        .glass-panel { background: rgba(255, 255, 255, 0.3); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.2); }
+        .glass-panel { background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.2); }
         .petal { position: fixed; top: -10%; pointer-events: none; z-index: 99; animation: fall linear forwards; }
         @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
-        .shake { animation: shake 0.4s ease-in-out; }
-        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }
-        .polaroid { background: white; padding: 10px 10px 40px 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .polaroid:hover { transform: scale(1.05) !important; z-index: 10; cursor: pointer; }
+        .polaroid { background: white; padding: 10px 10px 40px 10px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); transition: all 0.4s; }
+        .polaroid.viewed { border: 2px solid #934655; opacity: 0.8; }
+        
+        /* Video Modal Style */
+        #videoModal { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.9); align-items: center; justify-content: center; opacity: 0; transition: opacity 0.5s; }
+        #videoModal.active { display: flex; opacity: 1; }
+        #finalMessage { display: none; text-align: center; color: white; padding: 20px; }
     </style>
 </head>
 <body>
@@ -29,212 +29,151 @@
     <div id="lockScreen" class="fixed inset-0 z-[100] flex items-center justify-center bg-gradient-to-br from-[#f8d8db] to-[#fbf9f1] p-6">
         <div class="max-w-md w-full glass-panel p-10 rounded-3xl text-center space-y-6 shadow-2xl">
             <h1 class="font-romantic text-5xl text-[#934655]">For My Gift</h1>
-            <p class="text-xs tracking-widest uppercase opacity-60">Enter Our Special Date (DDMMYY)</p>
-            
+            <p class="text-xs tracking-widest uppercase opacity-60">ใส่รหัสผ่าน 6 หลัก (DDMMYY)</p>
             <div class="flex justify-center gap-2" id="otp-inputs">
-                <input type="number" pattern="\d*" inputmode="numeric" maxlength="1" class="w-12 h-14 text-center text-2xl font-numbers bg-white/70 rounded-xl border-none focus:ring-2 focus:ring-[#934655]">
-                <input type="number" pattern="\d*" inputmode="numeric" maxlength="1" class="w-12 h-14 text-center text-2xl font-numbers bg-white/70 rounded-xl border-none focus:ring-2 focus:ring-[#934655]">
-                <input type="number" pattern="\d*" inputmode="numeric" maxlength="1" class="w-12 h-14 text-center text-2xl font-numbers bg-white/70 rounded-xl border-none focus:ring-2 focus:ring-[#934655]">
-                <input type="number" pattern="\d*" inputmode="numeric" maxlength="1" class="w-12 h-14 text-center text-2xl font-numbers bg-white/70 rounded-xl border-none focus:ring-2 focus:ring-[#934655]">
-                <input type="number" pattern="\d*" inputmode="numeric" maxlength="1" class="w-12 h-14 text-center text-2xl font-numbers bg-white/70 rounded-xl border-none focus:ring-2 focus:ring-[#934655]">
-                <input type="number" pattern="\d*" inputmode="numeric" maxlength="1" class="w-12 h-14 text-center text-2xl font-numbers bg-white/70 rounded-xl border-none focus:ring-2 focus:ring-[#934655]">
+                <input type="number" pattern="\d*" inputmode="numeric" maxlength="1" class="w-10 h-12 text-center text-xl bg-white/70 rounded-lg">
+                <input type="number" pattern="\d*" inputmode="numeric" maxlength="1" class="w-10 h-12 text-center text-xl bg-white/70 rounded-lg">
+                <input type="number" pattern="\d*" inputmode="numeric" maxlength="1" class="w-10 h-12 text-center text-xl bg-white/70 rounded-lg">
+                <input type="number" pattern="\d*" inputmode="numeric" maxlength="1" class="w-10 h-12 text-center text-xl bg-white/70 rounded-lg">
+                <input type="number" pattern="\d*" inputmode="numeric" maxlength="1" class="w-10 h-12 text-center text-xl bg-white/70 rounded-lg">
+                <input type="number" pattern="\d*" inputmode="numeric" maxlength="1" class="w-10 h-12 text-center text-xl bg-white/70 rounded-lg">
             </div>
-            <p id="errorMsg" class="text-red-500 text-sm hidden">ลองใหม่อีกครั้งนะคนเก่ง ❤️</p>
         </div>
     </div>
 
-    <main id="mainContent" class="opacity-0 transition-opacity duration-1000 pt-24 pb-32 px-4 max-w-5xl mx-auto">
+    <main id="mainContent" class="opacity-0 transition-opacity duration-1000 pt-20 pb-20 px-4 max-w-5xl mx-auto">
         <header class="fixed top-0 left-0 w-full h-16 flex justify-between items-center px-6 glass-panel z-50">
-            <div class="flex items-center gap-2">
-                <span class="material-symbols-outlined text-[#934655]">favorite</span>
-                <span class="font-romantic text-2xl text-[#934655]">Project Gift</span>
-            </div>
-            <div class="flex gap-4">
-                <button onclick="toggleMusic()" class="text-[#934655]"><span class="material-symbols-outlined" id="musicIcon">music_note</span></button>
-            </div>
+            <span class="font-romantic text-2xl text-[#934655]">Project Gift</span>
+            <span id="progressText" class="text-xs font-bold text-[#934655]">ความทรงจำ: 0/10</span>
         </header>
 
-        <section class="text-center mb-16 space-y-4">
-            <h2 class="text-3xl font-bold text-[#934655]">เราคบกันมานานเท่าไหร่แล้วนะ?</h2>
-            <div class="flex justify-center gap-4">
-                <div class="flex flex-col"><span id="days" class="text-4xl font-numbers font-bold text-[#934655]">00</span><span class="text-[10px] uppercase">Days</span></div>
-                <div class="flex flex-col"><span id="hours" class="text-4xl font-numbers font-bold text-[#934655]">00</span><span class="text-[10px] uppercase">Hrs</span></div>
-                <div class="flex flex-col"><span id="mins" class="text-4xl font-numbers font-bold text-[#934655]">00</span><span class="text-[10px] uppercase">Mins</span></div>
-                <div class="flex flex-col"><span id="secs" class="text-4xl font-numbers font-bold text-[#934655]">00</span><span class="text-[10px] uppercase">Secs</span></div>
-            </div>
+        <section class="text-center mb-10 mt-10">
+            <h2 class="text-2xl font-bold text-[#934655]">เปิดดูความทรงจำให้ครบนะ...</h2>
         </section>
 
-        <section id="envelopeWrapper" class="flex justify-center mb-10">
-            <div onclick="openEnvelope()" class="w-64 h-48 bg-[#e19c98] rounded-lg shadow-2xl relative cursor-pointer flex items-center justify-center border-b-4 border-black/10 hover:scale-105 transition-all">
-                <div class="text-center">
-                    <p class="font-romantic text-2xl text-white">Click to Open</p>
-                    <div class="mt-2 w-12 h-12 bg-[#934655] rounded-full mx-auto flex items-center justify-center text-white shadow-lg"><span class="material-symbols-outlined">favorite</span></div>
-                </div>
-            </div>
-        </section>
-
-        <div id="gallery" class="hidden grid grid-cols-2 md:grid-cols-5 gap-6"></div>
+        <div id="gallery" class="grid grid-cols-2 md:grid-cols-5 gap-4"></div>
     </main>
 
-    <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 z-[200] hidden">
-        <div class="bg-[#934655] text-white px-8 py-3 rounded-full shadow-2xl font-romantic text-2xl animate-bounce"></div>
+    <div id="videoModal">
+        <div id="videoContainer" class="w-full max-w-3xl aspect-video bg-black shadow-2xl">
+            <div id="specialVideo"></div>
+        </div>
+        
+        <div id="finalMessage" class="space-y-6">
+            <h2 class="font-romantic text-6xl text-[#f8d8db]">Happy Anniversary</h2>
+            <p class="text-xl text-white/90 leading-relaxed max-w-lg mx-auto">
+                ขอบคุณที่เป็นของขวัญที่พิเศษที่สุดในชีวิต<br>
+                รักคุณมากขึ้นในทุกๆ วันนะคนเก่ง ❤️
+            </p>
+            <button onclick="closeVideo()" class="bg-[#934655] text-white px-8 py-3 rounded-full font-bold hover:bg-[#7a3a47] transition">
+                กลับไปดูรูปอีกครั้ง
+            </button>
+        </div>
     </div>
 
     <script src="https://www.youtube.com/iframe_api"></script>
-<script>
-    // --- ตั้งค่าข้อมูลตรงนี้ ---
-    const anniversaryDate = new Date("2016-11-26T00:00:00"); 
-    const correctPasscode = "261159"; 
-    const youtubeID = "NuDGNXsHYsk"; 
-    const messages = ["รักคุณที่สุดเลย 💖", "ขอบคุณที่อยู่ข้างกัน ✨", "Gift คือของขวัญของผม 🌹", "ยิ้มบ่อยๆ นะ 😊", "Happy Anniversary 🥂", "จับมือกันไปนานๆ นะ 👫", "คนเก่งของผม 🌟", "รักนะยัยตัวแสบ 😋", "Forever with you ♾️", "You're my everything 🥇"];
+    <script>
+        // --- CONFIG ---
+        const correctPasscode = "261159"; 
+        const bgMusicID = "KM52dCm740I"; // เพลงคู่ชีวิต
+        const surpriseVideoID = "Qvfac8pWYY4"; // **เปลี่ยนเป็น ID วิดีโอที่คุณอวยพรแฟน**
+        const messages = ["รักหนูนะครับ 💖", "คิดถึงที่สุดเลย ✨", "ขอบคุณนะที่อยู่กับเรา 🌹", "ยิ้มเยอะๆนะคนเก่ง 😊", "จุ๊บๆ 🥂", "จับมือกันนะ 👫", "คนเก่ง 🌟", "ตัวแสบ 😋", "อยู่ด้วยกันไปนานๆ ♾️", "ที่สุดในใจเลย 🥇"];
 
-    let player;
-    let musicStarted = false;
+        let bgPlayer, surprisePlayer;
+        let viewedPhotos = new Set();
+        let musicStarted = false;
 
-    // --- YouTube API Setup ---
-    function onYouTubeIframeAPIReady() {
-        player = new YT.Player('ytPlayer', {
-            height: '0', width: '0', videoId: youtubeID,
-            playerVars: { 
-                'autoplay': 1, 
-                'loop': 1, 
-                'playlist': youtubeID,
-                'mute': 1 // เริ่มต้นด้วยการ Mute เพื่อให้ Browser ยอมให้เล่น
-            },
-            events: { 
-                'onReady': (e) => {
-                    console.log("Player Ready");
-                    // พยายาม Unmute เมื่อมีการแตะหน้าจอครั้งแรก
-                    document.body.addEventListener('click', startMusicOnce, { once: true });
-                    document.body.addEventListener('touchstart', startMusicOnce, { once: true });
+        // --- YouTube API ---
+        function onYouTubeIframeAPIReady() {
+            // เพลงพื้นหลัง
+            bgPlayer = new YT.Player('ytPlayer', {
+                height: '0', width: '0', videoId: bgMusicID,
+                playerVars: { 'autoplay': 1, 'loop': 1, 'playlist': bgMusicID, 'mute': 1 }
+            });
+
+            // วิดีโอเซอร์ไพรส์
+            surprisePlayer = new YT.Player('specialVideo', {
+                height: '100%', width: '100%', videoId: surpriseVideoID,
+                events: { 'onStateChange': onSurpriseVideoChange }
+            });
+        }
+
+        function onSurpriseVideoChange(event) {
+            if (event.data === YT.PlayerState.ENDED) {
+                document.getElementById('videoContainer').style.display = 'none';
+                document.getElementById('finalMessage').style.display = 'block';
+            }
+        }
+
+        // --- Passcode Logic ---
+        const inputs = document.querySelectorAll('#otp-inputs input');
+        inputs.forEach((input, i) => {
+            input.addEventListener('input', () => {
+                if (!musicStarted && bgPlayer) { bgPlayer.unMute(); bgPlayer.playVideo(); musicStarted = true; }
+                if (input.value && i < inputs.length - 1) inputs[i + 1].focus();
+                const pass = Array.from(inputs).map(inp => inp.value).join('');
+                if (pass === correctPasscode) {
+                    document.getElementById('lockScreen').style.display = 'none';
+                    document.getElementById('mainContent').style.opacity = '1';
+                    initGallery();
+                }
+            });
+        });
+
+        function initGallery() {
+            createPetals();
+            const gallery = document.getElementById('gallery');
+            for(let i=1; i<=10; i++) {
+                const div = document.createElement('div');
+                div.className = 'polaroid';
+                div.style.transform = `rotate(${Math.random() * 10 - 5}deg)`;
+                div.innerHTML = `<img src="images/${i}.jpg" class="w-full aspect-square object-cover mb-2" onerror="this.src='https://via.placeholder.com/150'">`;
+                div.onclick = () => clickPhoto(i, div);
+                gallery.appendChild(div);
+            }
+        }
+
+        function clickPhoto(id, element) {
+            if (!viewedPhotos.has(id)) {
+                viewedPhotos.add(id);
+                element.classList.add('viewed');
+                document.getElementById('progressText').innerText = `ความทรงจำ: ${viewedPhotos.size}/10`;
+                
+                if (viewedPhotos.size === 10) {
+                    setTimeout(showVideoSurprise, 1500);
                 }
             }
-        });
-    }
-
-    // ฟังก์ชันปลุกเพลงให้ดัง (ต้องเกิดจากการกระทำของผู้ใช้)
-    function startMusicOnce() {
-        if (player && !musicStarted) {
-            player.unMute();
-            player.setVolume(80);
-            player.playVideo();
-            musicStarted = true;
-            console.log("Music Unmuted & Started");
+            // แสดงข้อความสั้นๆ
+            const toast = document.createElement('div');
+            toast.className = 'fixed top-1/2 left-1/2 -translate-x-1/2 bg-[#934655] text-white px-6 py-2 rounded-full z-[300]';
+            toast.innerText = messages[id-1];
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 1000);
         }
-    }
 
-    // --- ระบบรหัสผ่าน (Auto-Jump) ---
-    const inputs = document.querySelectorAll('#otp-inputs input');
-    inputs.forEach((input, i) => {
-        input.addEventListener('input', (e) => {
-            // เมื่อเริ่มพิมพ์รหัส ให้พยายามเริ่มเพลงทันที (ถ้ายังไม่ดัง)
-            startMusicOnce();
-
-            if (e.target.value.length > 1) e.target.value = e.target.value.slice(0, 1);
-            if (e.target.value && i < inputs.length - 1) inputs[i + 1].focus();
-            
-            const fullPass = Array.from(inputs).map(inp => inp.value).join('');
-            if (fullPass.length === 6) validatePass(fullPass);
-        });
-        input.addEventListener('keydown', (e) => {
-            if (e.key === 'Backspace' && !input.value && i > 0) inputs[i - 1].focus();
-        });
-    });
-
-    function validatePass(pass) {
-        if (pass === correctPasscode) {
-            document.getElementById('lockScreen').style.opacity = '0';
-            setTimeout(() => {
-                document.getElementById('lockScreen').style.display = 'none';
-                document.getElementById('mainContent').style.opacity = '1';
-                initSite();
-            }, 800);
-        } else {
-            document.querySelector('.glass-panel').classList.add('shake');
-            document.getElementById('errorMsg').classList.remove('hidden');
-            setTimeout(() => {
-                document.querySelector('.glass-panel').classList.remove('shake');
-                inputs.forEach(inp => inp.value = '');
-                inputs[0].focus();
-            }, 500);
+        function showVideoSurprise() {
+            if (bgPlayer) bgPlayer.pauseVideo(); // หยุดเพลงพื้นหลัง
+            const modal = document.getElementById('videoModal');
+            modal.classList.add('active');
+            document.getElementById('videoContainer').style.display = 'block';
+            document.getElementById('finalMessage').style.display = 'none';
+            surprisePlayer.playVideo();
         }
-    }
 
-    function initSite() {
-        startCounter();
-        createPetals();
-        // ย้ำอีกครั้งเผื่อเพลงยังไม่เล่น
-        if (player) {
-            player.unMute();
-            player.playVideo();
+        function closeVideo() {
+            document.getElementById('videoModal').classList.remove('active');
+            if (bgPlayer) bgPlayer.playVideo(); // เล่นเพลงพื้นหลังต่อ
         }
-    }
 
-    // --- ฟังก์ชันอื่นๆ คงเดิม ---
-    function startCounter() {
-        setInterval(() => {
-            const now = new Date();
-            const diff = now - anniversaryDate;
-            document.getElementById('days').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
-            document.getElementById('hours').innerText = Math.floor((diff / (1000 * 60 * 60)) % 24);
-            document.getElementById('mins').innerText = Math.floor((diff / 1000 / 60) % 60);
-            document.getElementById('secs').innerText = Math.floor((diff / 1000) % 60);
-        }, 1000);
-    }
-
-    function openEnvelope() {
-        document.getElementById('envelopeWrapper').classList.add('hidden');
-        const gallery = document.getElementById('gallery');
-        gallery.classList.remove('hidden');
-        for(let i=1; i<=10; i++) {
-            const div = document.createElement('div');
-            div.className = 'polaroid';
-            div.style.transform = `rotate(${Math.random() * 10 - 5}deg)`;
-            div.innerHTML = `
-                <img src="images/${i}.jpg" class="w-full aspect-square object-cover mb-2" onerror="this.src='https://via.placeholder.com/300?text=Gift+${i}'">
-                <p class="font-romantic text-center text-sm text-[#70585b]">Our Memory</p>
-            `;
-            div.onclick = (e) => { showToast(messages[i-1]); createBurst(e); };
-            gallery.appendChild(div);
+        function createPetals() {
+            const p = document.createElement('div');
+            p.className = 'petal'; p.innerHTML = '🌸';
+            p.style.left = Math.random() * 100 + 'vw';
+            p.style.animationDuration = (Math.random() * 3 + 5) + 's';
+            document.body.appendChild(p);
+            setTimeout(createPetals, 1000);
+            p.addEventListener('animationend', () => p.remove());
         }
-    }
-
-    function showToast(msg) {
-        const t = document.getElementById('toast');
-        t.firstElementChild.innerText = msg;
-        t.classList.remove('hidden');
-        setTimeout(() => t.classList.add('hidden'), 2000);
-    }
-
-    function createPetals() {
-        const p = document.createElement('div');
-        p.className = 'petal'; p.innerHTML = '🌹';
-        p.style.left = Math.random() * 100 + 'vw';
-        p.style.animationDuration = (Math.random() * 3 + 5) + 's';
-        p.style.fontSize = (Math.random() * 20 + 10) + 'px';
-        document.body.appendChild(p);
-        p.addEventListener('animationend', () => p.remove());
-        setTimeout(createPetals, 1000);
-    }
-
-    function createBurst(e) {
-        for(let i=0; i<6; i++) {
-            const b = document.createElement('div');
-            b.innerHTML = '❤️'; b.className = 'fixed pointer-events-none z-[200]';
-            b.style.left = e.clientX + 'px'; b.style.top = e.clientY + 'px';
-            b.style.transition = 'all 0.8s ease-out';
-            document.body.appendChild(b);
-            setTimeout(() => {
-                b.style.transform = `translate(${(Math.random()-0.5)*200}px, ${(Math.random()-0.5)*200}px) scale(0)`;
-                b.style.opacity = '0';
-            }, 10);
-            setTimeout(() => b.remove(), 800);
-        }
-    }
-
-    function toggleMusic() {
-        const icon = document.getElementById('musicIcon');
-        if (player.getPlayerState() === 1) { player.pauseVideo(); icon.innerText = 'music_off'; }
-        else { player.playVideo(); icon.innerText = 'music_note'; }
-    }
-</script>
+    </script>
+</body>
+</html>
