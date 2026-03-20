@@ -1,1 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Gift for My Gift | Anniversary</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;700&family=Plus+Jakarta+Sans:wght@400;600&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        :root {
+            --primary-pink: #f8d8db;
+            --rose-red: #934655;
+        }
 
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+            transition: background 1s ease;
+        }
+
+        .font-romantic { font-family: 'Dancing Script', cursive; }
+        .font-numbers { font-family: 'Montserrat', sans-serif; }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        /* Falling Petals Animation */
+        .petal {
+            position: fixed;
+            top: -10%;
+            pointer-events: none;
+            z-index: 99;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(110vh) rotate(360deg); }
+        }
+
+        /* Shake effect for wrong password */
+        .shake { animation: shake 0.4s ease-in-out; }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        /* Mouse Trail */
+        .sparkle {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: var(--rose-red);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 100;
+            opacity: 0.6;
+        }
+
+        .polaroid {
+            background: white;
+            padding: 10px 10px 40px 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .polaroid:hover { transform: scale(1.05) rotate(0deg) !important; z-index: 10; cursor: pointer; }
+    </style>
+</head>
+<body class="bg-[#fbf9f1] text-[#1b1c17]">
+
+    <audio id="bgMusic" loop>
+        <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="lockScreen" class="fixed inset-0 z-[100] flex items-center justify-center bg-gradient-to-br from-[#f8d8db] to-[#fbf9f1] p-6">
+        <div class="max-w-md w-full glass-panel p-8 rounded-3xl text-center space-y-6 shadow-2xl">
+            <h1 class="font-romantic text-5xl text-[#934655]">Hello, My Gift</h1>
+            <p class="text-sm tracking-widest uppercase opacity-60">Enter our special date</p>
+            
+            <div class="flex justify-center gap-2" id="otp-inputs">
+                <input type="password" maxlength="1" class="w-12 h-14 text-center text-2xl font-numbers bg-white/50 rounded-xl border-none focus:ring-2 focus:ring-[#934655]">
+                <input type="password" maxlength="1" class="w-12 h-14 text-center text-2xl font-numbers bg-white/50 rounded-xl border-none focus:ring-2 focus:ring-[#934655]">
+                <input type="password" maxlength="1" class="w-12 h-14 text-center text-2xl font-numbers bg-white/50 rounded-xl border-none focus:ring-2 focus:ring-[#934655]">
+                <input type="password" maxlength="1" class="w-12 h-14 text-center text-2xl font-numbers bg-white/50 rounded-xl border-none focus:ring-2 focus:ring-[#934655]">
+                <input type="password" maxlength="1" class="w-12 h-14 text-center text-2xl font-numbers bg-white/50 rounded-xl border-none focus:ring-2 focus:ring-[#934655]">
+                <input type="password" maxlength="1" class="w-12 h-14 text-center text-2xl font-numbers bg-white/50 rounded-xl border-none focus:ring-2 focus:ring-[#934655]">
+            </div>
+            
+            <p id="errorMsg" class="text-red-500 text-sm hidden">Incorrect date, try again my love.</p>
+        </div>
+    </div>
+
+    <main id="mainContent" class="opacity-0 transition-opacity duration-1000 pt-20 pb-20 px-4 max-w-5xl mx-auto">
+        
+        <header class="fixed top-0 left-0 w-full h-16 flex justify-between items-center px-6 glass-panel z-50">
+            <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-[#934655]">favorite</span>
+                <span class="font-romantic text-2xl">For Gift</span>
+            </div>
+            <div class="flex gap-4">
+                <button onclick="toggleMusic()" class="text-[#934655]"><span class="material-symbols-outlined" id="musicIcon">music_off</span></button>
+                <button onclick="takeScreenshot()" class="text-[#934655]"><span class="material-symbols-outlined">photo_camera</span></button>
+            </div>
+        </header>
+
+        <section class="text-center mb-16 space-y-4">
+            <h2 class="text-3xl font-bold">Every second with you is a gift...</h2>
+            <div class="flex justify-center gap-4">
+                <div class="flex flex-col"><span id="days" class="text-4xl font-numbers font-bold text-[#934655]">00</span><span class="text-[10px] uppercase">Days</span></div>
+                <div class="flex flex-col"><span id="hours" class="text-4xl font-numbers font-bold text-[#934655]">00</span><span class="text-[10px] uppercase">Hrs</span></div>
+                <div class="flex flex-col"><span id="mins" class="text-4xl font-numbers font-bold text-[#934655]">00</span><span class="text-[10px] uppercase">Mins</span></div>
+                <div class="flex flex-col"><span id="secs" class="text-4xl font-numbers font-bold text-[#934655]">00</span><span class="text-[10px] uppercase">Secs</span></div>
+            </div>
+        </section>
+
+        <section id="envelopeWrapper" class="flex justify-center mb-20">
+            <div onclick="openEnvelope()" class="w-64 h-48 bg-[#e19c98] rounded-lg shadow-2xl relative cursor-pointer flex items-center justify-center border-b-4 border-black/10 hover:scale-105 transition-transform">
+                <div class="text-center">
+                    <p class="font-romantic text-2xl text-white">Open Me</p>
+                    <div class="mt-2 w-12 h-12 bg-[#934655] rounded-full mx-auto flex items-center justify-center text-white shadow-lg">
+                        <span class="material-symbols-outlined">favorite</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div id="gallery" class="hidden grid grid-cols-2 md:grid-cols-5 gap-6">
+            </div>
+
+    </main>
+
+    <div id="toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 z-[200] hidden">
+        <div class="bg-[#934655] text-white px-6 py-3 rounded-full shadow-xl font-romantic text-xl animate-bounce">
+            I love you so much! 💖
+        </div>
+    </div>
+
+    <script>
+        // --- CONFIGURATION ---
+        const anniversaryDate = new Date("2024-06-12T00:00:00"); 
+        const correctPasscode = "120625"; 
+        const messages = ["You are my world 🌍", "My better half 💖", "Forever with you ♾️", "You make me smile 😊", "My beautiful Gift 🌹", "Always yours 🤝", "Soulmates ✨", "My favorite person 🥇", "Love you more 📈", "To the moon and back 🌙"];
+
+        // --- PASSCODE LOGIC ---
+        const inputs = document.querySelectorAll('#otp-inputs input');
+        inputs.forEach((input, i) => {
+            input.addEventListener('input', () => {
+                if (input.value && i < inputs.length - 1) inputs[i+1].focus();
+                if (Array.from(inputs).every(ins => ins.value)) validatePass();
+            });
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && !input.value && i > 0) inputs[i-1].focus();
+            });
+        });
+
+        function validatePass() {
+            const pass = Array.from(inputs).map(i => i.value).join('');
+            if (pass === correctPasscode) {
+                document.getElementById('lockScreen').style.display = 'none';
+                document.getElementById('mainContent').style.opacity = '1';
+                initSite();
+            } else {
+                document.querySelector('.glass-panel').classList.add('shake');
+                document.getElementById('errorMsg').classList.remove('hidden');
+                setTimeout(() => {
+                    document.querySelector('.glass-panel').classList.remove('shake');
+                    inputs.forEach(i => i.value = '');
+                    inputs[0].focus();
+                }, 500);
+            }
+        }
+
+        function initSite() {
+            startCounter();
+            createPetals();
+            setupTheme();
+            document.getElementById('bgMusic').play().catch(() => console.log("Autoplay blocked"));
+        }
+
+        // --- TIMER ---
+        function startCounter() {
+            setInterval(() => {
+                const now = new Date();
+                const diff = now - anniversaryDate;
+                document.getElementById('days').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
+                document.getElementById('hours').innerText = Math.floor((diff / (1000 * 60 * 60)) % 24);
+                document.getElementById('mins').innerText = Math.floor((diff / 1000 / 60) % 60);
+                document.getElementById('secs').innerText = Math.floor((diff / 1000) % 60);
+            }, 1000);
+        }
+
+        // --- GALLERY ---
+        function openEnvelope() {
+            document.getElementById('envelopeWrapper').classList.add('hidden');
+            const gallery = document.getElementById('gallery');
+            gallery.classList.remove('hidden');
+            
+            for(let i=1; i<=10;
