@@ -142,63 +142,165 @@
     </div>
 
     <script>
-        // --- CONFIGURATION ---
-        const anniversaryDate = new Date("2016-11-26T00:00:00"); 
-        const correctPasscode = "261159"; 
-        const messages = ["You are my world 🌍", "My better half 💖", "Forever with you ♾️", "You make me smile 😊", "My beautiful Gift 🌹", "Always yours 🤝", "Soulmates ✨", "My favorite person 🥇", "Love you more 📈", "To the moon and back 🌙"];
+    // --- 1. CONFIGURATION ---
+    const anniversaryDate = new Date("2024-06-12T00:00:00"); 
+    const correctPasscode = "120625"; // เปลี่ยนรหัสตรงนี้
+    const messages = ["You are my world 🌍", "My better half 💖", "Forever with you ♾️", "You make me smile 😊", "My beautiful Gift 🌹", "Always yours 🤝", "Soulmates ✨", "My favorite person 🥇", "Love you more 📈", "To the moon and back 🌙"];
 
-        // --- PASSCODE LOGIC ---
-        const inputs = document.querySelectorAll('#otp-inputs input');
-        inputs.forEach((input, i) => {
-            input.addEventListener('input', () => {
-                if (input.value && i < inputs.length - 1) inputs[i+1].focus();
-                if (Array.from(inputs).every(ins => ins.value)) validatePass();
-            });
-            input.addEventListener('keydown', (e) => {
-                if (e.key === 'Backspace' && !input.value && i > 0) inputs[i-1].focus();
-            });
+    // --- 2. PASSCODE AUTO-JUMP & VALIDATION ---
+    const inputs = document.querySelectorAll('#otp-inputs input');
+    
+    inputs.forEach((input, i) => {
+        // เมื่อพิมพ์ตัวเลข
+        input.addEventListener('input', (e) => {
+            if (e.target.value.length === 1 && i < inputs.length - 1) {
+                inputs[i + 1].focus(); // กระโดดไปช่องถัดไป
+            }
+            
+            // ตรวจสอบว่ากรอกครบทุกช่องหรือยัง
+            const fullPass = Array.from(inputs).map(inp => inp.value).join('');
+            if (fullPass.length === 6) {
+                validatePass(fullPass);
+            }
         });
 
-        function validatePass() {
-            const pass = Array.from(inputs).map(i => i.value).join('');
-            if (pass === correctPasscode) {
+        // เมื่อกด Backspace ให้ถอยหลัง
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Backspace' && !input.value && i > 0) {
+                inputs[i - 1].focus();
+            }
+        });
+    });
+
+    function validatePass(pass) {
+        if (pass === correctPasscode) {
+            // รหัสถูก: ซ่อนหน้า Lock และเริ่มทำงาน
+            document.getElementById('lockScreen').style.transition = 'opacity 0.8s ease';
+            document.getElementById('lockScreen').style.opacity = '0';
+            setTimeout(() => {
                 document.getElementById('lockScreen').style.display = 'none';
                 document.getElementById('mainContent').style.opacity = '1';
-                initSite();
-            } else {
-                document.querySelector('.glass-panel').classList.add('shake');
-                document.getElementById('errorMsg').classList.remove('hidden');
-                setTimeout(() => {
-                    document.querySelector('.glass-panel').classList.remove('shake');
-                    inputs.forEach(i => i.value = '');
-                    inputs[0].focus();
-                }, 500);
-            }
-        }
-
-        function initSite() {
-            startCounter();
-            createPetals();
-            setupTheme();
-            document.getElementById('bgMusic').play().catch(() => console.log("Autoplay blocked"));
-        }
-
-        // --- TIMER ---
-        function startCounter() {
-            setInterval(() => {
-                const now = new Date();
-                const diff = now - anniversaryDate;
-                document.getElementById('days').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
-                document.getElementById('hours').innerText = Math.floor((diff / (1000 * 60 * 60)) % 24);
-                document.getElementById('mins').innerText = Math.floor((diff / 1000 / 60) % 60);
-                document.getElementById('secs').innerText = Math.floor((diff / 1000) % 60);
-            }, 1000);
-        }
-
-        // --- GALLERY ---
-        function openEnvelope() {
-            document.getElementById('envelopeWrapper').classList.add('hidden');
-            const gallery = document.getElementById('gallery');
-            gallery.classList.remove('hidden');
+                initSite(); // ปลุกระบบทั้งหมดให้ทำงาน
+            }, 800);
+        } else {
+            // รหัสผิด: สั่นเตือน
+            const glass = document.querySelector('.glass-panel');
+            glass.classList.add('shake');
+            document.getElementById('errorMsg').classList.remove('hidden');
             
-            for(let i=1; i<=10;
+            setTimeout(() => {
+                glass.classList.remove('shake');
+                inputs.forEach(inp => inp.value = ''); // ล้างค่า
+                inputs[0].focus(); // กลับไปช่องแรก
+            }, 500);
+        }
+    }
+
+    // --- 3. INITIALIZE SITE ---
+    function initSite() {
+        startCounter();
+        createPetals();
+        setupTheme();
+        // พยายามเล่นเพลง (Browser บางตัวอาจจะ Block จนกว่าจะมีการ Click)
+        const music = document.getElementById('bgMusic');
+        music.play().catch(e => console.log("Music will start after first interaction"));
+    }
+
+    // --- 4. TIMER LOGIC ---
+    function startCounter() {
+        setInterval(() => {
+            const now = new Date();
+            const diff = now - anniversaryDate;
+            document.getElementById('days').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
+            document.getElementById('hours').innerText = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            document.getElementById('mins').innerText = Math.floor((diff / 1000 / 60) % 60);
+            document.getElementById('secs').innerText = Math.floor((diff / 1000) % 60);
+        }, 1000);
+    }
+
+    // --- 5. ENVELOPE & GALLERY ---
+    function openEnvelope() {
+        document.getElementById('envelopeWrapper').style.display = 'none';
+        const gallery = document.getElementById('gallery');
+        gallery.classList.remove('hidden');
+        gallery.innerHTML = ''; // Clear ก่อนเผื่อกดซ้ำ
+        
+        for(let i=1; i<=10; i++) {
+            const div = document.createElement('div');
+            // สุ่มองศาการเอียงให้เหมือนรูปโพลารอยด์วางกระจัดกระจาย
+            const randomRotate = Math.floor(Math.random() * 10 - 5);
+            div.className = `polaroid`;
+            div.style.transform = `rotate(${randomRotate}deg)`;
+            
+            div.innerHTML = `
+                <img src="images/${i}.jpg" class="w-full aspect-square object-cover mb-2" onerror="this.src='https://via.placeholder.com/300?text=Memory+${i}'">
+                <p class="font-romantic text-center text-sm text-[#70585b]">Memory #${i}</p>
+            `;
+            
+            div.onclick = (e) => {
+                showToast(messages[i-1]);
+                createBurst(e);
+            };
+            gallery.appendChild(div);
+        }
+    }
+
+    // --- 6. UTILITIES (TOAST, EFFECTS, ETC.) ---
+    function showToast(msg) {
+        const t = document.getElementById('toast');
+        t.firstElementChild.innerText = msg;
+        t.classList.remove('hidden');
+        setTimeout(() => t.classList.add('hidden'), 2000);
+    }
+
+    function createPetals() {
+        const p = document.createElement('div');
+        p.className = 'petal';
+        p.innerHTML = '🌹';
+        p.style.left = Math.random() * 100 + 'vw';
+        p.style.animationDuration = (Math.random() * 3 + 4) + 's';
+        p.style.opacity = Math.random();
+        p.style.fontSize = (Math.random() * 20 + 10) + 'px';
+        document.body.appendChild(p);
+        p.addEventListener('animationend', () => p.remove());
+        setTimeout(createPetals, 2000);
+    }
+
+    function createBurst(e) {
+        for(let i=0; i<6; i++) {
+            const b = document.createElement('div');
+            b.innerHTML = '❤️';
+            b.className = 'fixed pointer-events-none z-[200]';
+            b.style.left = e.clientX + 'px';
+            b.style.top = e.clientY + 'px';
+            b.style.transition = 'all 0.8s ease-out';
+            document.body.appendChild(b);
+            setTimeout(() => {
+                b.style.transform = `translate(${(Math.random()-0.5)*200}px, ${(Math.random()-0.5)*200}px) scale(0)`;
+                b.style.opacity = '0';
+            }, 10);
+            setTimeout(() => b.remove(), 800);
+        }
+    }
+
+    function setupTheme() {
+        const hr = new Date().getHours();
+        if (hr < 6 || hr > 18) {
+            document.body.style.background = "#2d1b1e";
+            document.body.style.color = "white";
+        }
+    }
+
+    function toggleMusic() {
+        const m = document.getElementById('bgMusic');
+        const icon = document.getElementById('musicIcon');
+        if (m.paused) { m.play(); icon.innerText = 'music_note'; }
+        else { m.pause(); icon.innerText = 'music_off'; }
+    }
+
+    function takeScreenshot() {
+        alert("UI hidden. Take your screenshot now!");
+        document.querySelector('header').style.opacity = '0';
+        setTimeout(() => { document.querySelector('header').style.opacity = '1'; }, 5000);
+    }
+</script>
