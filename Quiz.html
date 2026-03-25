@@ -25,7 +25,6 @@
             color: var(--text);
         }
 
-        /* Petal animation */
         .petal {
             position: fixed;
             top: -5%;
@@ -38,7 +37,6 @@
             to { transform: translateY(110vh) rotate(720deg); opacity: 0; }
         }
 
-        /* Background decorative circles */
         body::before {
             content: '';
             position: fixed;
@@ -60,7 +58,6 @@
             z-index: 0;
         }
 
-        /* ===== INTRO SCREEN ===== */
         #introScreen {
             position: fixed; inset: 0; z-index: 100;
             display: flex; align-items: center; justify-content: center;
@@ -120,7 +117,6 @@
             box-shadow: 0 12px 40px rgba(147,70,85,0.45);
         }
 
-        /* ===== GAME SCREEN ===== */
         #gameScreen {
             position: relative; z-index: 10;
             min-height: 100vh;
@@ -129,7 +125,6 @@
         }
         #gameScreen.show { display: block; }
 
-        /* Header */
         .game-header {
             position: fixed; top: 0; left: 0; right: 0;
             z-index: 50;
@@ -155,7 +150,6 @@
             font-size: 1.1rem; letter-spacing: 2px;
         }
 
-        /* Progress bar */
         .progress-bar-wrap {
             height: 4px; background: rgba(147,70,85,0.1);
             border-radius: 2px; margin-top: 0.5rem;
@@ -165,7 +159,6 @@
             border-radius: 2px; transition: width 0.5s ease;
         }
 
-        /* Category badge */
         .category-tag {
             display: inline-block;
             background: var(--rose-light);
@@ -176,7 +169,6 @@
             margin-bottom: 1rem;
         }
 
-        /* Question card */
         .question-area {
             max-width: 600px; margin: 5.5rem auto 0;
             text-align: center;
@@ -202,7 +194,6 @@
             min-height: 3em;
         }
 
-        /* Answer grid */
         .answers-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -253,7 +244,6 @@
         }
         .answer-btn:disabled { cursor: default; }
 
-        /* Feedback toast */
         .feedback-toast {
             position: fixed; top: 50%; left: 50%;
             transform: translate(-50%,-50%) scale(0.8);
@@ -276,7 +266,6 @@
         .toast-text { font-size: 1rem; font-weight: 600; }
         .toast-sub { font-size: 0.8rem; opacity: 0.6; margin-top: 0.2rem; }
 
-        /* ===== WIN SCREEN ===== */
         #winScreen {
             position: fixed; inset: 0; z-index: 150;
             background: linear-gradient(135deg, #fff5f6 0%, var(--cream) 60%, #fdf5e8 100%);
@@ -349,7 +338,6 @@
             transform: translateY(-4px);
         }
 
-        /* Responsive */
         @media (max-width: 400px) {
             .answers-grid { grid-template-columns: 1fr; }
         }
@@ -357,7 +345,6 @@
 </head>
 <body>
 
-<!-- INTRO SCREEN -->
 <div id="introScreen">
     <span class="intro-heart">💌</span>
     <h1 class="intro-title">ทายสิ่งที่ฉันชอบ</h1>
@@ -370,7 +357,6 @@
     <button class="btn-start" onclick="startGame()">เริ่มเลย! 💕</button>
 </div>
 
-<!-- GAME SCREEN -->
 <div id="gameScreen">
     <header class="game-header">
         <span class="header-brand">Quiz for You 🌹</span>
@@ -384,20 +370,15 @@
             <div class="progress-bar-fill" id="progressBar" style="width:0%"></div>
         </div>
     </div>
-
-    <div class="question-area" id="questionArea">
-        <!-- JS will fill this -->
-    </div>
+    <div class="question-area" id="questionArea"></div>
 </div>
 
-<!-- FEEDBACK TOAST -->
 <div class="feedback-toast" id="feedbackToast">
     <span class="toast-emoji" id="toastEmoji"></span>
     <div class="toast-text" id="toastText"></div>
     <div class="toast-sub" id="toastSub"></div>
 </div>
 
-<!-- WIN SCREEN -->
 <div id="winScreen">
     <div class="win-stars">⭐ ⭐ ⭐</div>
     <h2 class="win-title">เก่งมากเลย!</h2>
@@ -408,10 +389,7 @@
         <div class="score-card-label">จาก 10 คะแนน</div>
         <div class="score-card-stars" id="finalStars">⭐</div>
     </div>
-    <p class="win-message" id="winMessage">
-        ขอบคุณที่ใส่ใจในรายละเอียดเล็กๆ น้อยๆ<br>
-        นั่นแหละคือเหตุผลที่รักหนูมากที่สุด 💕
-    </p>
+    <p class="win-message" id="winMessage"></p>
     <a href="index.html" class="btn-gift" onclick="sessionStorage.setItem('quizDone','1')">
         🎁 รับของขวัญเลย!
     </a>
@@ -432,7 +410,7 @@
                 { emoji: "🍕", text: "พิซซ่า" },
                 { emoji: "🍛", text: "ข้าวผัด" }
             ],
-            correct: 0, // index ของคำตอบที่ถูก (นับจาก 0)
+            correct: 0,
             comment: "เป็นคนขำง่ายเพราะชีวิตติดเส้น! 🍜"
         },
         {
@@ -510,8 +488,8 @@
                 { emoji: "🎸", text: "เพลง ฉันอยู่ตรงนี้" },
                 { emoji: "💘", text: "เพลง คนของเธอ" }
             ],
-            correct: จ,
-            comment: "จีบรุ่นพี่ซะด้วย ร้ายกาจ 💘! "
+            correct: 3,  // ← แก้ตรงนี้ได้เลย (0=ลองคุย 1=ทุกอย่าง 2=ฉันอยู่ตรงนี้ 3=คนของเธอ)
+            comment: "จีบรุ่นพี่ซะด้วย ร้ายกาจ 💘!"
         },
         {
             category: "🌙 ดึกๆ",
@@ -549,8 +527,8 @@
                 { emoji: "🍽️", text: "กินข้าวด้วยกัน" },
                 { emoji: "🌟", text: "อยู่ด้วยกันเงียบๆ" }
             ],
-            correct: [0,1,2,3]
-            comment: "กอดแน่นๆ อบอุ่นที่สุดในโลก 🤗"
+            correct: [0, 1, 2, 3],  // ✅ ถูกทุกตัวเลือก
+            comment: "ทุกอย่างที่ทำด้วยกันดีหมดเลย 💕"
         }
     ];
     // ========================================================
@@ -605,18 +583,23 @@
         const q = QUESTIONS[currentQ];
         const correct = q.correct;
         const buttons = document.querySelectorAll('.answer-btn');
-
         buttons.forEach(btn => btn.disabled = true);
 
-       if (index === correct || (Array.isArray(correct) && correct.includes(index))) {
+        const isCorrect = Array.isArray(correct)
+            ? correct.includes(index)
+            : index === correct;
+
+        if (isCorrect) {
             buttons[index].classList.add('correct');
             score++;
             showToast('✅', 'ถูกต้อง! 🎉', q.comment, true);
         } else {
             buttons[index].classList.add('wrong');
-            buttons[correct].classList.add('reveal');
+            // ถ้าคำตอบเป็น array ให้ highlight ตัวแรก, ถ้าเป็นตัวเลขให้ highlight ตัวนั้น
+            const revealIndex = Array.isArray(correct) ? correct[0] : correct;
+            buttons[revealIndex].classList.add('reveal');
             lives--;
-            showToast('❌', 'ไม่ใช่แล้ว...', `คำตอบที่ถูกคือ "${q.answers[correct].text}" นะ 😊`, false);
+            showToast('❌', 'ไม่ใช่แล้ว...', `คำตอบที่ถูกคือ "${q.answers[revealIndex].text}" นะ 😊`, false);
         }
 
         document.getElementById('scoreBadge').innerText = score + ' คะแนน';
@@ -643,6 +626,7 @@
         document.getElementById('toastSub').innerText = sub;
         setTimeout(() => toast.classList.add('show'), 50);
     }
+
     function hideToast() {
         document.getElementById('feedbackToast').classList.remove('show');
     }
