@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ทายสิ่งที่ชอบ 💖</title>
+    <title>ทายสิ่งที่เราชอบ 💖</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Kanit:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -423,22 +423,22 @@
     // ========================================================
     const QUESTIONS = [
         {
-            category: "🍜 อาหาร",
+            category: "🍜 อาหารที่กิ๊ฟชอบที่สุด",
             emoji: "🍜",
             question: "ถ้าจะให้เลือกกินอาหารจานเดียวตลอดชีวิต จะเลือกอะไร?",
             answers: [
                 { emoji: "🍜", text: "ก๋วยเตี๋ยว" },
-                { emoji: "🍣", text: "ซูชิ" },
+                { emoji: "🍗", text: "ไก่ทอด" },
                 { emoji: "🍕", text: "พิซซ่า" },
                 { emoji: "🍛", text: "ข้าวผัด" }
             ],
             correct: 0, // index ของคำตอบที่ถูก (นับจาก 0)
-            comment: "ก๋วยเตี๋ยวไม่เคยทำให้ผิดหวัง! 🍜"
+            comment: "เป็นคนขำง่ายเพราะชีวิตติดเส้น! 🍜"
         },
         {
             category: "🎨 สีโปรด",
             emoji: "🎨",
-            question: "สีที่ชอบที่สุด คือสีอะไร?",
+            question: "สีที่กิ๊ฟชอบที่สุด คือสีอะไร?",
             answers: [
                 { emoji: "🩷", text: "ชมพู" },
                 { emoji: "💜", text: "ม่วง" },
@@ -446,7 +446,7 @@
                 { emoji: "🩵", text: "ฟ้า" }
             ],
             correct: 0,
-            comment: "ชมพูเหมือนกันเลย น่ารักมากเลย 🩷"
+            comment: "ชมพูเป็นสีที่หนูชอบ น่ารักมากเลย 🩷"
         },
         {
             category: "☕ เครื่องดื่ม",
@@ -455,7 +455,7 @@
             answers: [
                 { emoji: "☕", text: "กาแฟ" },
                 { emoji: "🧋", text: "ชานมไข่มุก" },
-                { emoji: "🍵", text: "ชาเขียว" },
+                { emoji: "🍵", text: "ชาเขียวนม" },
                 { emoji: "🥤", text: "น้ำผลไม้สด" }
             ],
             correct: 1,
@@ -464,15 +464,15 @@
         {
             category: "🎬 หนัง",
             emoji: "🎬",
-            question: "ถ้าจะดูหนังคืนนี้ อยากดูแนวไหน?",
+            question: "ถ้าจะดูหนังคืนนี้ อยากชวนใครดูด้วยที่สุด?",
             answers: [
-                { emoji: "💕", text: "โรแมนติก" },
-                { emoji: "😂", text: "ตลก" },
-                { emoji: "😱", text: "สยองขวัญ" },
-                { emoji: "🦸", text: "ซูเปอร์ฮีโร่" }
+                { emoji: "💕", text: "พี่ฟร้อง" },
+                { emoji: "😂", text: "หมูอ้วน" },
+                { emoji: "😱", text: "ไออ้วน" },
+                { emoji: "🦸", text: "อ้วนๆ" }
             ],
             correct: 0,
-            comment: "โรแมนติก เพราะชีวิตจริงก็โรแมนติกอยู่แล้ว 💕"
+            comment: "เรียกพี่แล้วแอบใจบางทุกที 👀💕"
         },
         {
             category: "🌿 ธรรมชาติ",
@@ -490,41 +490,41 @@
         {
             category: "🐾 สัตว์เลี้ยง",
             emoji: "🐾",
-            question: "ถ้าจะเลี้ยงสัตว์สักตัว จะเลือกอะไร?",
+            question: "สัตว์เลี้ยงที่เราชอบมากที่สุดคืออะไร?",
             answers: [
                 { emoji: "🐱", text: "แมว" },
                 { emoji: "🐶", text: "หมา" },
                 { emoji: "🐰", text: "กระต่าย" },
                 { emoji: "🐟", text: "ปลา" }
             ],
-            correct: 0,
-            comment: "แมว น่ารัก เงียบ เป็นเพื่อนที่ดีมาก 🐱"
+            correct: 1,
+            comment: "ลูกหมาของพวกเราน่ารักที่สุด 🐶"
         },
         {
             category: "🎵 เพลง",
             emoji: "🎵",
-            question: "เวลาขับรถ ชอบเปิดเพลงแนวไหน?",
+            question: "เพลงที่กิ๊ฟจีบพี่ฟร้อง แล้วพี่ฟร้องประทับใจมากที่สุด?",
             answers: [
-                { emoji: "💔", text: "เพลงเศร้า" },
-                { emoji: "🎉", text: "เพลงสนุก" },
-                { emoji: "🎸", text: "เพลงร็อค" },
-                { emoji: "🎹", text: "เพลงเบาๆ" }
+                { emoji: "💕", text: "เพลง ลองคุย" },
+                { emoji: "🎉", text: "เพลง ทุกอย่าง" },
+                { emoji: "🎸", text: "เพลง ฉันอยู่ตรงนี้" },
+                { emoji: "💘", text: "เพลง คนของเธอ" }
             ],
-            correct: 3,
-            comment: "เพลงเบาๆ ฟังสบาย ไม่ง่วง! 🎹"
+            correct: จ,
+            comment: "จีบรุ่นพี่ซะด้วย ร้ายกาจ 💘! "
         },
         {
             category: "🌙 ดึกๆ",
             emoji: "🌙",
-            question: "ดึกๆ ก่อนนอน ชอบทำอะไร?",
+            question: "ดึกๆ ก่อนนอนกิ๊ฟ ชอบทำอะไร?",
             answers: [
                 { emoji: "📱", text: "เล่นโทรศัพท์" },
                 { emoji: "📺", text: "ดูซีรีส์" },
                 { emoji: "📚", text: "อ่านหนังสือ" },
                 { emoji: "🎮", text: "เล่นเกม" }
             ],
-            correct: 1,
-            comment: "ดูซีรีส์ก่อนนอน แล้วก็ดูไม่จบสักที 😂"
+            correct: 0,
+            comment: "เล่นโทรศัพท์ทั้งคืน แล้วก็ไปทำงานสายทุกวัน 😂"
         },
         {
             category: "🎂 วันเกิด",
@@ -533,7 +533,7 @@
             answers: [
                 { emoji: "👜", text: "กระเป๋า" },
                 { emoji: "💍", text: "เครื่องประดับ" },
-                { emoji: "🌹", text: "ดอกไม้ + จดหมาย" },
+                { emoji: "🌹", text: "ดอกไม้ + จดหมาย และการมีเราอยู่" },
                 { emoji: "✈️", text: "ทริปเที่ยว" }
             ],
             correct: 2,
@@ -542,14 +542,14 @@
         {
             category: "💌 ความรัก",
             emoji: "💌",
-            question: "สิ่งที่รู้สึกดีที่สุดในความสัมพันธ์คืออะไร?",
+            question: "สิ่งที่กิ๊ฟรู้สึกดีที่สุดในความสัมพันธ์คืออะไร?",
             answers: [
                 { emoji: "🤗", text: "กอดแน่นๆ" },
                 { emoji: "💬", text: "คุยเล่าเรื่องต่างๆ" },
                 { emoji: "🍽️", text: "กินข้าวด้วยกัน" },
                 { emoji: "🌟", text: "อยู่ด้วยกันเงียบๆ" }
             ],
-            correct: 0,
+            correct: [0,1,2,3]
             comment: "กอดแน่นๆ อบอุ่นที่สุดในโลก 🤗"
         }
     ];
@@ -608,7 +608,7 @@
 
         buttons.forEach(btn => btn.disabled = true);
 
-        if (index === correct) {
+       if (index === correct || (Array.isArray(correct) && correct.includes(index))) {
             buttons[index].classList.add('correct');
             score++;
             showToast('✅', 'ถูกต้อง! 🎉', q.comment, true);
